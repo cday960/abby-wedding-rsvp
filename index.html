@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Wedding RSVP – Abby & Matt</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@300;400&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --blush: #f2ddd8; --rose: #c97b7b; --deep: #7a3f3f; --cream: #fdf6f0; --muted: #a08888; --text: #3d2b2b; }
+    body { font-family: 'Jost', sans-serif; background-color: var(--cream); color: var(--text); min-height: 100vh; overflow-x: hidden; }
+    .hero { position: relative; z-index: 1; text-align: center; padding: 80px 20px 60px; }
+    .hero-eyebrow { font-size: 11px; letter-spacing: 0.35em; text-transform: uppercase; color: var(--rose); margin-bottom: 20px; opacity: 0; animation: fadeUp 1s ease 0.2s forwards; }
+    .hero h1 { font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: clamp(52px, 10vw, 96px); line-height: 1.0; color: var(--deep); opacity: 0; animation: fadeUp 1s ease 0.4s forwards; }
+    .hero h1 em { font-style: italic; color: var(--rose); }
+    .hero-ampersand { display: block; font-size: clamp(70px, 14vw, 130px); color: var(--blush); line-height: 0.9; margin: -10px 0; }
+    .hero-date { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 20px; color: var(--muted); margin-top: 24px; opacity: 0; animation: fadeUp 1s ease 0.6s forwards; }
+    .divider { display: flex; align-items: center; justify-content: center; gap: 16px; margin: 40px auto; max-width: 320px; opacity: 0; animation: fadeUp 1s ease 0.8s forwards; }
+    .divider-line { flex: 1; height: 1px; background: linear-gradient(to right, transparent, var(--rose), transparent); }
+    .card { position: relative; z-index: 1; background: rgba(253,246,240,0.88); backdrop-filter: blur(12px); border: 1px solid rgba(201,123,123,0.18); border-radius: 2px; max-width: 560px; margin: 0 auto 80px; padding: 52px 48px; box-shadow: 0 8px 48px rgba(122,63,63,0.08); opacity: 0; animation: fadeUp 1s ease 1s forwards; }
+    @media (max-width: 600px) { .card { padding: 36px 24px; margin: 0 16px 60px; } }
+    .card-title { font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 300; font-size: 28px; color: var(--deep); text-align: center; margin-bottom: 36px; }
+    .form-group { margin-bottom: 28px; }
+    label { display: block; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; font-weight: 400; }
+    input[type="text"], input[type="email"], input[type="number"], select, textarea { width: 100%; background: transparent; border: none; border-bottom: 1px solid rgba(201,123,123,0.35); padding: 10px 0; font-family: 'Cormorant Garamond', serif; font-size: 18px; color: var(--text); outline: none; transition: border-color 0.3s; -webkit-appearance: none; border-radius: 0; }
+    input:focus, select:focus, textarea:focus { border-bottom-color: var(--rose); }
+    input::placeholder, textarea::placeholder { color: #cbb4b4; font-style: italic; }
+    select { cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23c97b7b' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 4px center; padding-right: 24px; }
+    textarea { resize: none; height: 72px; font-size: 16px; }
+    .radio-group { display: flex; border: 1px solid rgba(201,123,123,0.3); border-radius: 2px; overflow: hidden; }
+    .radio-group input { display: none; }
+    .radio-group label { flex: 1; text-align: center; padding: 12px; font-size: 11px; letter-spacing: 0.15em; cursor: pointer; transition: background 0.25s, color 0.25s; color: var(--muted); margin: 0; }
+    .radio-group input:checked + label { background: var(--rose); color: white; }
+    .radio-group label:hover { background: var(--blush); }
+    .guests-row { display: none; gap: 20px; }
+    .guests-row.visible { display: flex; }
+    .guests-row .form-group { flex: 1; margin-bottom: 0; }
+    .btn { width: 100%; margin-top: 36px; padding: 16px; background: var(--deep); color: var(--cream); border: none; font-family: 'Jost', sans-serif; font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; cursor: pointer; transition: background 0.3s, transform 0.15s; border-radius: 2px; }
+    .btn:hover { background: var(--rose); transform: translateY(-1px); }
+    .btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+    .success-message { display: none; text-align: center; padding: 20px 0; }
+    .success-message.visible { display: block; }
+    .success-icon { font-size: 40px; margin-bottom: 16px; }
+    .success-message h3 { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 32px; color: var(--deep); margin-bottom: 10px; }
+    .success-message p { color: var(--muted); font-size: 14px; line-height: 1.7; }
+    footer { position: relative; z-index: 1; text-align: center; padding: 0 20px 48px; font-size: 12px; color: var(--muted); }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+    /* KEY FIX: no width/height in .petal — those are set per-element via JS so transform in keyframes is uncontested */
+    .petal { position: fixed; border-radius: 50% 0 50% 0; opacity: 0; pointer-events: none; z-index: 0; animation: fall linear infinite; }
+    @keyframes fall {
+      0%   { opacity: 0;    transform: translateY(-40px) rotate(0deg); }
+      8%   { opacity: 0.65; }
+      90%  { opacity: 0.3;  }
+      100% { opacity: 0;    transform: translateY(105vh) rotate(380deg); }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <p class="hero-eyebrow">Together with their families</p>
+    <h1>
+      <em>Abby</em>
+      <span class="hero-ampersand">&amp;</span>
+      <em>Matt</em>
+    </h1>
+    <p class="hero-date">Monday, the fourteenth of September, two thousand and twenty-six</p>
+  </header>
+  <div class="divider">
+    <div class="divider-line"></div>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="color:#c97b7b"><path d="M12 2C9 6 4 7 4 12c0 4.4 3.6 8 8 8s8-3.6 8-8c0-5-5-6-8-10z" opacity="0.7"/></svg>
+    <div class="divider-line"></div>
+  </div>
+  <main>
+    <div class="card">
+      <p class="card-title">Kindly Reply</p>
+      <div class="success-message" id="successMsg">
+        <div class="success-icon">🌸</div>
+        <h3>We'll see you there!</h3>
+        <p>Can't wait to see you there!</p>
+      </div>
+      <form id="rsvpForm" action="https://formspree.io/f/xqedrzeg" method="POST">
+        <div class="form-group">
+          <label for="name">Full Name</label>
+          <input type="text" id="name" name="name" placeholder="Your full name" required />
+        </div>
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" name="email" placeholder="your@email.com" required />
+        </div>
+        <div class="form-group">
+          <label>Will you be attending?</label>
+          <div class="radio-group">
+            <input type="radio" id="yes" name="attending" value="Joyfully accepts" required />
+            <label for="yes">Joyfully Accepts</label>
+            <input type="radio" id="no" name="attending" value="Regretfully declines" />
+            <label for="no">Regretfully Declines</label>
+          </div>
+        </div>
+        <div class="guests-row" id="guestsRow">
+          <div class="form-group">
+            <label for="guests">Number of Guests</label>
+            <input type="number" id="guests" name="guests" min="1" max="10" placeholder="1" />
+          </div>
+          <div class="form-group">
+            <label for="meal">Meal Preference</label>
+            <select id="meal" name="meal_preference">
+              <option value="" disabled selected>Select…</option>
+              <option>Chicken</option>
+              <option>Fish</option>
+              <option>Vegetarian</option>
+              <option>Vegan</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="dietary">Dietary Restrictions or Allergies</label>
+          <textarea id="dietary" name="dietary_restrictions" placeholder="Any allergies or dietary needs we should know about…"></textarea>
+        </div>
+        <button class="btn" type="submit" id="submitBtn">Send My RSVP</button>
+      </form>
+    </div>
+  </main>
+  <footer>
+    <p>For questions, please contact the bride &amp; groom at hello@example.com</p>
+  </footer>
+  <script>
+    // Fix: set size via width/height (not transform) so CSS @keyframes fall can own the transform property
+    const colors = ['#f2ddd8','#e8c5c0','#d4a8a8','#f5e4e0'];
+    for (let i = 0; i < 36; i++) {
+      const p = document.createElement('div');
+      p.className = 'petal';
+      p.style.left = (Math.random() * 100) + 'vw';
+      p.style.animationDuration = (7 + Math.random() * 11) + 's';
+      p.style.animationDelay = (Math.random() * 16) + 's';
+      const w = 6 + Math.random() * 10;
+      p.style.width = w + 'px';
+      p.style.height = (w * 1.6) + 'px';
+      p.style.background = colors[Math.floor(Math.random() * colors.length)];
+      document.body.appendChild(p);
+    }
+    document.querySelectorAll('input[name="attending"]').forEach(r => {
+      r.addEventListener('change', () => {
+        const val = document.querySelector('input[name="attending"]:checked')?.value;
+        document.getElementById('guestsRow').classList.toggle('visible', val === 'Joyfully accepts');
+      });
+    });
+    const form = document.getElementById('rsvpForm');
+    const btn = document.getElementById('submitBtn');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      btn.disabled = true; btn.textContent = 'Sending…';
+      try {
+        const res = await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { 'Accept': 'application/json' } });
+        if (res.ok) { form.style.display = 'none'; document.getElementById('successMsg').classList.add('visible'); }
+        else { btn.disabled = false; btn.textContent = 'Send My RSVP'; alert('Something went wrong. Please try again.'); }
+      } catch { btn.disabled = false; btn.textContent = 'Send My RSVP'; alert('Network error. Please try again.'); }
+    });
+  </script>
+</body>
+</html>
